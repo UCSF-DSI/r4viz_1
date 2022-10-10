@@ -1,0 +1,135 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+# Load Data
+
+```{r}
+penguins_df <- as.tibble(penguins) %>% drop_na()
+penguins_df
+```
+
+# Histogram
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_histogram(
+      mapping = aes(x = flipper_length_mm),
+      bins = 20
+    ) + 
+    labs(
+      x = "Flipper Length (mm)",
+      y = "Frequency",
+      title = "Distribution of 344 Penguin Flipper Lengths"
+    )
+
+ggsave(
+  filename = "histogram.png",
+  path = "../plots"
+)
+```
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_histogram(
+      mapping = aes(x = flipper_length_mm, fill = species),
+      bins = 15
+    ) + 
+    facet_wrap(
+      facets = ~ species,
+      nrow = 3,
+      ncol = 1
+    ) + 
+    labs(
+      x = "Flipper Length (mm)",
+      y = "Frequency",
+      title = "Distribution of 344 Penguin Flipper Lengths"
+    )
+
+ggsave(
+  filename = "histogram_faceted.png",
+  path = "../plots"
+)
+```
+
+
+# Box Plots
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_boxplot(
+      mapping = aes(x = flipper_length_mm)
+    ) + 
+    labs(
+      x = "Flipper Length (mm)",
+      title = "Distribution of 344 Penguin Flipper Lengths"
+    )
+
+ggsave(
+  filename = "boxplot.png",
+  path = "../plots"
+)
+```
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_boxplot(
+      mapping = aes(x = flipper_length_mm, y = species, fill = species)
+    ) + 
+    labs(
+      x = "Flipper Length (mm)",
+      title = "Distribution of 344 Penguin Flipper Lengths"
+    )
+
+ggsave(
+  filename = "boxplot_species.png",
+  path = "../plots"
+)
+```
+
+# Violin Plots
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_density(
+      mapping = aes(x = flipper_length_mm)
+    ) + 
+    labs(
+      x = "Lengths",
+      title = "Distribution of 344 Penguin Flipper Lengths"
+    )
+
+ggsave(
+  filename = "violin.png",
+  path = "../plots"
+)
+```
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_violin(
+      mapping = aes(x = flipper_length_mm, y = species, fill = species)
+    ) + 
+    labs(
+      x = "Lengths",
+      title = "Distribution of 344 Penguin Flipper Lengths"
+    )
+
+ggsave(
+  filename = "violin_species.png",
+  path = "../plots"
+)
+```

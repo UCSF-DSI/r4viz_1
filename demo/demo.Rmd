@@ -1,0 +1,111 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Visualizing Continuous Variables
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+```{r}
+penguins_df <- penguins %>% drop_na()
+penguins_df
+```
+
+## Intro to ggplot2
+
+Grammar of Graphics
+
+## Histograms
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_histogram(
+      mapping = aes(x = flipper_length_mm),
+      bins = 20
+    )
+```
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_histogram(
+      mapping = aes(x = flipper_length_mm, fill = species),
+      bins = 20
+    ) +
+    facet_wrap(
+      ~species,
+      nrow = 3,
+      ncol = 1
+    ) + 
+    labs(
+      x = "Flipper Length (mm)",
+      y = "Frequency",
+      title = "Distribution of 333 Penguin Flipper Lengths"
+    )
+
+ggsave(
+  "histogram.png",
+  path = "../plots"
+)
+```
+
+## Box Plots
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_boxplot(
+      mapping = aes(x = flipper_length_mm)
+    ) 
+```
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_boxplot(
+      mapping = aes(x = flipper_length_mm, y = species, fill = species)
+    ) + 
+    labs(
+      x = "Flipper Length (mm)",
+      y = "Species",
+      title = "Distribution of 333 Penguin Flipper Lengths"
+    )
+
+ggsave(
+  "boxplot.png",
+  path = "../plots"
+)
+```
+
+## Violin Plots
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_violin(
+      mapping = aes(x = flipper_length_mm, y = species)
+    ) 
+```
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_density(
+      mapping = aes(x = flipper_length_mm)
+    ) 
+```
+
+## Scatterplots
+
+```{r}
+penguins_df %>%
+  ggplot() +
+    geom_point(
+      mapping = aes(x = flipper_length_mm, y = body_mass_g)
+    ) 
+```
